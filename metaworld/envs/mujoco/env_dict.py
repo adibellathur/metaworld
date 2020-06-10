@@ -1,6 +1,9 @@
 from collections import OrderedDict
 
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_reach_push_pick_place import SawyerReachPushPickPlaceEnv
+from metaworld.envs.mujoco.sawyer_xyz.sawyer_reach_v2 import SawyerReachEnvV2
+from metaworld.envs.mujoco.sawyer_xyz.sawyer_push_v2 import SawyerPushEnvV2
+from metaworld.envs.mujoco.sawyer_xyz.sawyer_pick_place_v2 import SawyerPickPlaceEnvV2
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_door import SawyerDoorEnv
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_hand_insert import SawyerHandInsertEnv
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_assembly_peg import SawyerNutAssemblyEnv
@@ -98,6 +101,11 @@ ALL_ENVIRONMENTS = OrderedDict((
     ('hand-insert-v1', SawyerHandInsertEnv),
     ('door-lock-v1', SawyerDoorLockEnv),
     ('door-unlock-v1', SawyerDoorUnlockEnv),))
+
+ALL_V2_ENVIRONMENTS = OrderedDict((
+    ('reach-v2', SawyerReachEnvV2),
+    ('push-v2', SawyerPushEnvV2),
+    ('pick-place-v2', SawyerPickPlaceEnvV2),))
 
 _NUM_METAWORLD_ENVS = len(ALL_ENVIRONMENTS)
 
