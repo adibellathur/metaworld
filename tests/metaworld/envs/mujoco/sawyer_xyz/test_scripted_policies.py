@@ -1,19 +1,30 @@
 import pytest
 
-from metaworld.envs.mujoco.env_dict import ALL_ENVIRONMENTS
+from metaworld.envs.mujoco.env_dict import ALL_ENVIRONMENTS, ALL_V2_ENVIRONMENTS
 from metaworld.policies import *
 from tests.metaworld.envs.mujoco.sawyer_xyz.utils import check_success
 
 
-test_data = [
+test_data_v1 = [
     # name,      policy,      success rate,   environment kwargs
     ['reach-v1', SawyerReachV1Policy(), .99, {'task_type': 'reach'}],
     ['push-v1', SawyerPushV1Policy(), .95, {'task_type': 'push'}],
     ['pick-place-v1', SawyerPickPlaceV1Policy(), .95, {'task_type': 'pick_place'}]
 ]
 
-for row in test_data:
+test_data_v1 = []
+
+test_data_v2 = [
+    ['push-wall-v2', SawyerPushWallV2Policy(), 0.8, {}]
+]
+
+for row in test_data_v1:
     row[-1] = ALL_ENVIRONMENTS[row[0]](random_init=True, **row[-1])
+
+for row in test_data_v2:
+    row[-1] = ALL_V2_ENVIRONMENTS[row[0]](random_init=True, **row[-1])
+
+test_data = test_data_v1 + test_data_v2
 
 
 @pytest.mark.parametrize('label,policy,expected_success_rate,env', test_data)
@@ -35,5 +46,4 @@ def test_scripted_policy(env, policy, label, expected_success_rate, iters=1000):
         successes += float(check_success(env, policy, noisiness=.1)[0])
         if successes >= expected_success_rate * iters:
             break
-
     assert successes >= expected_success_rate * iters
