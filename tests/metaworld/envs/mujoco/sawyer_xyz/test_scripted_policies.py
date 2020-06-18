@@ -1,49 +1,5 @@
 import pytest
 
-from metaworld.envs.mujoco.env_dict import ALL_ENVIRONMENTS, ALL_V2_ENVIRONMENTS
-from metaworld.policies import *
-from tests.metaworld.envs.mujoco.sawyer_xyz.utils import check_success
-
-test_data_v1 = [
-    # name,      policy,      success rate,   environment kwargs
-    ['reach-v1', SawyerReachV1Policy(), .99, {'task_type': 'reach'}],
-    ['push-v1', SawyerPushV1Policy(), .95, {'task_type': 'push'}],
-    ['pick-place-v1', SawyerPickPlaceV1Policy(), .95, {'task_type': 'pick_place'}]
-]
-
-test_data_v2 = [
-    ['push-wall-v2', SawyerPushWallV2Policy(), 0.8, {}]
-]
-
-for row in test_data_v1:
-    row[-1] = ALL_ENVIRONMENTS[row[0]](random_init=True, **row[-1])
-
-for row in test_data_v2:
-    row[-1] = ALL_V2_ENVIRONMENTS[row[0]](random_init=True, **row[-1])
-
-test_data = test_data_v1 + test_data_v2
-
-
-@pytest.mark.parametrize('label,policy,expected_success_rate,env', test_data)
-def test_scripted_policy(env, policy, label, expected_success_rate, iters=1000):
-    """Tests whether a given policy solves an environment in a stateless manner
-
-    Args:
-        env (metaworld.envs.MujocoEnv): Environment to test
-        policy (metaworld.policies.policy.Policy): Policy that's supposed to succeed in env
-        label (string): A string to use when printing out errors
-        expected_success_rate (float): Decimal value indicating % of runs that must be successful
-        iters (int): How many times the policy should be tested
-
-    """
-    assert len(vars(policy)) == 0, label + ' policy has state variable(s)'
-
-    successes = 0
-    for i in range(iters):
-        successes += float(check_success(env, policy, noisiness=.1)[0])
-        if successes >= expected_success_rate * iters:
-            break
-=======
 from metaworld.envs.mujoco.env_dict import ALL_V1_ENVIRONMENTS, ALL_V2_ENVIRONMENTS
 from metaworld.policies import *
 from tests.metaworld.envs.mujoco.sawyer_xyz.utils import check_success
@@ -59,6 +15,10 @@ test_cases = [
     ['window-close-v1', SawyerWindowCloseV2Policy(), .1, 0.44, {}],
     ['window-close-v2', SawyerWindowCloseV2Policy(), 0., 0.98, {}],
     ['window-close-v2', SawyerWindowCloseV2Policy(), .1, 0.98, {}],
+    ['reach-wall-v2', SawyerReachWallV2Policy(), 0.0, 0.98, {}],
+    ['reach-wall-v2', SawyerReachWallV2Policy(), 0.1, 0.98, {}],
+    ['push-wall-v2', SawyerPushWallV2Policy(), 0.0, 0.8, {}],
+    ['push-wall-v2', SawyerPushWallV2Policy(), 0.1, 0.8, {}],
 ]
 
 ALL_ENVS = {**ALL_V1_ENVIRONMENTS, **ALL_V2_ENVIRONMENTS}
@@ -71,10 +31,7 @@ for row in test_cases:
     row.pop(0)
 
 
-@pytest.mark.parametrize(
-    'policy,act_noise_pct,expected_success_rate,env',
-    test_cases
-)
+@pytest.mark.parametrize('policy,act_noise_pct,expected_success_rate,env', test_cases)
 def test_scripted_policy(env, policy, act_noise_pct, expected_success_rate, iters=1000):
     """Tests whether a given policy solves an environment in a stateless manner
     Args:
@@ -93,6 +50,4 @@ def test_scripted_policy(env, policy, act_noise_pct, expected_success_rate, iter
     successes = 0
     for i in range(iters):
         successes += float(check_success(env, policy, act_noise_pct)[0])
-
->>>>>>> upstream/master
     assert successes >= expected_success_rate * iters
