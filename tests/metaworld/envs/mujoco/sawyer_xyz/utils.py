@@ -1,15 +1,19 @@
 import numpy as np
 
+<<<<<<< HEAD
 
 def check_success(env, policy, noisiness, render=False):
     """Tests whether a given policy solves an environment
+=======
+>>>>>>> origin/push_wall_v2_policy
 
+def check_success(env, policy, noisiness, render=False):
+    """Tests whether a given policy solves an environment
     Args:
         env (metaworld.envs.MujocoEnv): Environment to test
         policy (metaworld.policies.policies.Policy): Policy that's supposed to succeed in env
         noisiness (float): Decimal value indicating std deviation of the noise as a % of action space
         render (bool): Whether to render the env in a GUI
-
     Returns:
         (bool, int): Success flag, Trajectory length
     """
@@ -35,7 +39,7 @@ def check_success(env, policy, noisiness, render=False):
             t += 1
             success |= bool(info['success'])
 
-        except ValueError:
+        except ValueError as e:
             env.reset()
             done = True
 

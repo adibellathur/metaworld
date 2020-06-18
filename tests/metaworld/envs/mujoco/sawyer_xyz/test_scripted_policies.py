@@ -4,6 +4,7 @@ from metaworld.envs.mujoco.env_dict import ALL_ENVIRONMENTS, ALL_V2_ENVIRONMENTS
 from metaworld.policies import *
 from tests.metaworld.envs.mujoco.sawyer_xyz.utils import check_success
 
+<<<<<<< HEAD
 
 test_data_v1 = [
     # name,      policy,      success rate,   environment kwargs
@@ -15,6 +16,12 @@ test_data_v1 = [
 test_data_v1 = []
 
 test_data_v2 = [
+=======
+test_data_v1 = []
+
+test_data_v2 = [
+    # name,      policy,      success rate,   environment kwargs
+>>>>>>> origin/push_wall_v2_policy
     ['push-wall-v2', SawyerPushWallV2Policy(), 0.8, {}]
 ]
 

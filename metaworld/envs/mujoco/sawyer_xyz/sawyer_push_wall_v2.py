@@ -1,11 +1,28 @@
+<<<<<<< HEAD
 import numpy as np
 from gym.spaces import Box
 
+=======
+"""Version 2 of SawyerPushWallEnv."""
+
+import numpy as np
+from gym.spaces import Box
+>>>>>>> origin/push_wall_v2_policy
 from metaworld.envs.env_util import get_asset_full_path
 from metaworld.envs.mujoco.sawyer_xyz.base import SawyerXYZEnv
 
 
 class SawyerPushWallEnvV2(SawyerXYZEnv):
+<<<<<<< HEAD
+=======
+    """
+    SawyerPushEnvV2 updates SawyerReachPushPickPlaceWallEnv.
+
+    Env now handles only 'Push' task type from SawyerReachPushPickPlaceWallEnv.
+    Observations now include a vector pointing from the objectposition to the
+    goal position. Allows for scripted policy.
+    """
+>>>>>>> origin/push_wall_v2_policy
 
     def __init__(self, random_init=False):
         liftThresh = 0.04
@@ -70,7 +87,10 @@ class SawyerPushWallEnvV2(SawyerXYZEnv):
         self._set_goal_marker(self._state_goal)
         ob = self._get_obs()
         obs_dict = self._get_obs_dict()
+<<<<<<< HEAD
         # reward, _, reach_dist, _, push_dist, pickRew, _, placingDist = self.compute_reward(action, obs_dict)
+=======
+>>>>>>> origin/push_wall_v2_policy
         reward, reach_dist, push_dist = self.compute_reward(action, obs_dict)
         success = float(push_dist <= 0.07)
 
@@ -99,6 +119,7 @@ class SawyerPushWallEnvV2(SawyerXYZEnv):
         )
 
     def _set_goal_marker(self, goal):
+<<<<<<< HEAD
         # self.data.site_xpos[self.model.site_name2id('goal_{}'.format(self.task_type))] = (
         #     goal[:3]
         # )
@@ -107,6 +128,8 @@ class SawyerPushWallEnvV2(SawyerXYZEnv):
         #         self.data.site_xpos[self.model.site_name2id('goal_{}'.format(task_type))] = (
         #             np.array([10.0, 10.0, 10.0])
         #         )
+=======
+>>>>>>> origin/push_wall_v2_policy
         self.data.site_xpos[self.model.site_name2id('goal')] = goal[:3]
 
     def _set_obj_xyz(self, pos):
@@ -122,7 +145,12 @@ class SawyerPushWallEnvV2(SawyerXYZEnv):
         diff = self.get_body_com('obj')[:2] - self.data.get_geom_xpos('objGeom')[:2]
         adjustedPos = orig_init_pos[:2] + diff
 
+<<<<<<< HEAD
         # The convention we follow is that body_com[2] is always 0, and geom_pos[2] is the object height
+=======
+        # The convention we follow is that body_com[2] is always 0,
+        # and geom_pos[2] is the object height
+>>>>>>> origin/push_wall_v2_policy
         return [adjustedPos[0], adjustedPos[1],self.data.get_geom_xpos('objGeom')[-1]]
 
     def reset_model(self):
@@ -162,14 +190,28 @@ class SawyerPushWallEnvV2(SawyerXYZEnv):
             self.data.set_mocap_pos('mocap', self.hand_init_pos)
             self.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
             self.do_simulation([-1,1], self.frame_skip)
+<<<<<<< HEAD
         rightFinger, leftFinger = self.get_site_pos('rightEndEffector'), self.get_site_pos('leftEndEffector')
+=======
+        rightFinger, leftFinger = (
+            self.get_site_pos('rightEndEffector'),
+            self.get_site_pos('leftEndEffector')
+        )
+>>>>>>> origin/push_wall_v2_policy
         self.init_fingerCOM = (rightFinger + leftFinger)/2
         self.pickCompleted = False
 
     def compute_reward(self, actions, obs):
         obs = obs['state_observation']
         obj_pos = obs[3:6]
+<<<<<<< HEAD
         rightFinger, leftFinger = self.get_site_pos('rightEndEffector'), self.get_site_pos('leftEndEffector')
+=======
+        rightFinger, leftFinger = (
+            self.get_site_pos('rightEndEffector'),
+            self.get_site_pos('leftEndEffector')
+        )
+>>>>>>> origin/push_wall_v2_policy
         fingerCOM = (rightFinger + leftFinger) / 2
 
         goal = self._state_goal
