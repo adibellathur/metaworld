@@ -6,7 +6,16 @@ from metaworld.envs.mujoco.sawyer_xyz.base import SawyerXYZEnv
 
 
 class SawyerPushEnvV2(SawyerXYZEnv):
-
+    """
+    Motivation for V2:
+        V1 was completely unsolvable because the observation didn't say where
+        to move after reaching the puck.
+    Changelog from V1 to V2:
+        - (6/15/20) Added a 3 element vector to the observation. This vector
+            points from the end effector to the goal coordinate.
+            i.e. (self._state_goal - pos_hand)
+        - (6/15/20) Separated reach-push-pick-place into 3 separate envs.
+    """
     def __init__(self, random_init=False):
         lift_thresh = 0.04
 
@@ -191,7 +200,7 @@ class SawyerPushEnvV2(SawyerXYZEnv):
         c3 = 0.001
         reach_dist = np.linalg.norm(finger_center - pos_obj)
         reach_rew = -reach_dist
-        
+
         push_dist = np.linalg.norm(pos_obj[:2] - goal[:2])
         if reach_dist < 0.05:
             push_rew = c1 * (self.maxPushDist - push_dist) + \

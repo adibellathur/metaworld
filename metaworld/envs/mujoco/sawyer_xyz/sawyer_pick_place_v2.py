@@ -6,7 +6,16 @@ from metaworld.envs.mujoco.sawyer_xyz.base import SawyerXYZEnv
 
 
 class SawyerPickPlaceEnvV2(SawyerXYZEnv):
-
+    """
+    Motivation for V2:
+        V1 was completely unsolvable because the observation didn't say where
+        to move after picking up the puck.
+    Changelog from V1 to V2:
+        - (6/15/20) Added a 3 element vector to the observation. This vector
+            points from the end effector to the goal coordinate.
+            i.e. (self._state_goal - pos_hand)
+        - (6/15/20) Separated reach-push-pick-place into 3 separate envs.
+    """
     def __init__(self, random_init=False):
         liftThresh = 0.04
 

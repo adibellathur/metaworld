@@ -8,10 +8,13 @@ __all__ = [
     'SawyerPickPlaceV1Policy',
     'SawyerPushV1Policy',
     'SawyerReachV1Policy',
+    'SawyerPushWallV2Policy'
 =======
-from metaworld.policies.sawyer_push_wall_v2_policy import SawyerPushWallV2Policy
+from metaworld.policies.sawyer_window_open_v2_policy import SawyerWindowOpenV2Policy
+from metaworld.policies.sawyer_window_close_v2_policy import SawyerWindowCloseV2Policy
 
 __all__ = [
->>>>>>> origin/push_wall_v2_policy
-    'SawyerPushWallV2Policy'
+    'SawyerWindowOpenV2Policy',
+    'SawyerWindowCloseV2Policy'
+>>>>>>> upstream/master
 ]
